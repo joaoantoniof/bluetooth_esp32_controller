@@ -143,28 +143,52 @@ class _DeviceScreenState extends State<DeviceScreen> {
     }
   }
 
-  // Future onRequestMtuPressed() async {
-  //   try {
-  //     await widget.device.requestMtu(223, predelay: 0);
-  //     Snackbar.show(ABC.c, "Request Mtu: Success", success: true);
-  //   } catch (e, backtrace) {
-  //     Snackbar.show(ABC.c, prettyException("Change Mtu Error:", e), success: false);
-  //     print(e);
-  //     print("backtrace: $backtrace");
-  //   }
-  // }
 
+  // Spinner
+  Widget buildSpinner(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(14.0),
+      child: AspectRatio(
+        aspectRatio: 1.0,
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
+  // Widget for the BLE ICON
+  Widget buildBleIconTile(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        isConnected ? 
+        const Icon(Icons.bluetooth_connected, color: Color.fromARGB(255, 67, 187, 83),)
+        : const Icon(Icons.bluetooth_disabled, color: Color.fromARGB(255, 199, 171, 45),)],
+    );
+  }
+
+  // Connect Button
+  Widget buildConnectButton(BuildContext context) {
+    return Row(children: [
+      if (_isConnecting || _isDisconnecting) buildSpinner(context),
+      ElevatedButton(
+          onPressed: _isConnecting ? onCancelPressed : (isConnected ? onDisconnectPressed : onConnectPressed),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer),
+          child: Text(_isConnecting ? "STOP" : (isConnected ? "OFF" : "ON"),textAlign: TextAlign.center,
+            style: Theme.of(context).primaryTextTheme.labelLarge?.copyWith(color: Colors.white),
+          ))
+    ]);
+  }
+
+  // Generator of tiles interface
   List<dynamic> _buildServiceTiles(BuildContext context, BluetoothDevice d) {
-    List myList =_services.map(
-          (s) => ServiceTile(
+    List myList =_services.map((s) => ServiceTile(
             service: s,
-            characteristicTiles: s.characteristics.map((c) => _buildCharacteristicTile(c)).toList(),
-          ),
+            characteristicTiles: s.characteristics.map((c) => _buildCharacteristicTile(c)).toList()),
         ).toList();
 
     return myList;
   }
-
   CharacteristicTile _buildCharacteristicTile(BluetoothCharacteristic c) {
     return CharacteristicTile(
       characteristic: c,
@@ -172,109 +196,37 @@ class _DeviceScreenState extends State<DeviceScreen> {
     );
   }
 
-  Widget buildSpinner(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(14.0),
-      child: AspectRatio(
-        aspectRatio: 1.0,
-        child: CircularProgressIndicator(
-          backgroundColor: Colors.black12,
-          color: Colors.black26,
-        ),
-      ),
-    );
+   // Connect Button
+  Widget buildBluetoothConfigurator () {
+    return const Text("This is the controller");
   }
 
-  // Widget buildRemoteId(BuildContext context) {
-  //   return Padding(
-  //     padding: const EdgeInsets.all(8.0),
-  //     child: Text('${widget.device.remoteId}'),
-  //   );
-  // }
 
-  Widget buildRssiTile(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        isConnected ? const Icon(Icons.bluetooth_connected) : const Icon(Icons.bluetooth_disabled),
-        //Text(((isConnected && _rssi != null) ? '${_rssi!} dBm' : ''), style: Theme.of(context).textTheme.bodySmall)
-      ],
-    );
-  }
-
-  // Widget buildGetServices(BuildContext context) {
-  //   return IndexedStack(
-  //     index: (_isDiscoveringServices) ? 1 : 0,
-  //     children: <Widget>[
-  //       // TextButton(
-  //       //   onPressed: onDiscoverServicesPressed,
-  //       //   child: const Text("Get Services"),
-  //       // ),
-  //       const IconButton(
-  //         icon: SizedBox(
-  //           width: 18.0,
-  //           height: 18.0,
-  //           child: CircularProgressIndicator(
-  //             valueColor: AlwaysStoppedAnimation(Colors.grey),
-  //           ),
-  //         ),
-  //         onPressed: null,
-  //       )
-  //     ],
-  //   );
-  // }
-
-  // Widget buildMtuTile(BuildContext context) {
-  //   return ListTile(
-  //       title: const Text('MTU Size'),
-  //       subtitle: Text('$_mtuSize bytes'),
-  //       trailing: IconButton(
-  //         icon: const Icon(Icons.edit),
-  //         onPressed: onRequestMtuPressed,
-  //       ));
-  // }
-
-  Widget buildConnectButton(BuildContext context) {
-    return Row(children: [
-      if (_isConnecting || _isDisconnecting) buildSpinner(context),
-      ElevatedButton(
-          onPressed: _isConnecting ? onCancelPressed : (isConnected ? onDisconnectPressed : onConnectPressed),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.secondary),
-          child: Text(
-            _isConnecting ? "Cancel" : (isConnected ? "Disconnect" : "Connect"),
-            style: Theme.of(context).primaryTextTheme.labelLarge?.copyWith(color: Colors.white),
-          ))
-    ]);
-  }
-
+  // Page built
   @override
   Widget build(BuildContext context) {
     return ScaffoldMessenger(
       key: Snackbar.snackBarKeyC,
       child: Scaffold(
-        // App bar
         appBar: AppBar(
-          centerTitle: false,
-          actions: [buildConnectButton(context), const SizedBox(width: 15)],
-          // title:  Text("Controll unit", style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+          actions: [buildConnectButton(context)],
+          title:  Text("Heat controller",  style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 20)),
           backgroundColor: Theme.of(context).colorScheme.secondaryContainer),
-
         body: SingleChildScrollView(
           child: Column( 
-            children: <Widget>[
-              ListTile(
-                leading: buildRssiTile(context),
-                title: Text('${widget.device.platformName}'),
-                // trailing: buildGetServices(context),
-              ),
+            children: 
+            <Widget>[
 
-              // buildMtuTile(context),
-              // Service UUID information /NEED TO FILTER() TODO:
-               ..._buildServiceTiles(context, widget.device),
-                          
+              ListTile(
+                leading: buildBleIconTile(context),
+                title: Text('${widget.device.platformName}')
+                ),
+                ..._buildServiceTiles(context, widget.device),
+
+                // Main controller layout
+                // buildBluetoothConfigurator(),
             ],
-          ),
+         ),
         ),
       ),
     );

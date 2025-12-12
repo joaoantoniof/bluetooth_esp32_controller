@@ -21,14 +21,14 @@ class BluetoothOffScreen extends StatelessWidget {
   } 
 
   Widget buildSubTitle(BuildContext context) {
-    return Text('(please enable bluetooth on your phone)',style: TextStyle(fontSize: 12));
+    return Text('Enable bluetooth on your phone.',style: TextStyle(fontSize: 12));
   }  
 
   Widget buildBluetoothOffIcon(BuildContext context) {
     return const Icon(
       Icons.bluetooth_disabled,
-      size: 80
-    );
+      size: 80,
+      color: Color.fromARGB(255, 220, 170, 20));
   }
 
   Widget buildTurnOnButton(BuildContext context) {
