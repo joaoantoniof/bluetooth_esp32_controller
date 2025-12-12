@@ -185,11 +185,16 @@ class _DeviceScreenState extends State<DeviceScreen> {
 
   // Generator of tiles interface
   List<dynamic> _buildServiceTiles(BuildContext context, BluetoothDevice d) {
+    
     List myList =_services.map((s) => ServiceTile(
             service: s,
             characteristicTiles: s.characteristics.map((c) => _buildCharacteristicTile(c)).toList())).toList();
+    
     return myList;
   }
+
+
+
   CharacteristicTile _buildCharacteristicTile(BluetoothCharacteristic c) {
     return CharacteristicTile(
       characteristic: c,
@@ -199,10 +204,12 @@ class _DeviceScreenState extends State<DeviceScreen> {
 
   // This will be the main widget
   Widget buildDeviceManager (BuildContext context, BluetoothDevice d) {
-    print("joao");
-    print(context);
-    print(d);
-    return const Text("This is the controller");
+    print("MYLOGO_Servirce");
+    print(_services);
+
+    // Filtrar srevices pelo UUID
+    
+    return const SizedBox();
   }
 
   // Page built
@@ -213,14 +220,14 @@ class _DeviceScreenState extends State<DeviceScreen> {
       child: Scaffold(
         
         appBar: AppBar(
-          title: Text("${widget.device.platformName}",style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 20, fontWeight: FontWeight.w300)),
+          title: Text("${widget.device.platformName}",style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 20, fontWeight: FontWeight.normal)),
           actions: [buildConnectButton(context)],
           backgroundColor: Theme.of(context).colorScheme.secondaryContainer),
         
         body: SingleChildScrollView(
           child: Column(
             children: <Widget> [
-              // ..._buildServiceTiles(context, widget.device), 
+              ..._buildServiceTiles(context, widget.device), 
               
               buildDeviceManager(context, widget.device), 
             ],
