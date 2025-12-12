@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:heat_controller_app_bs/theme/light_mode.dart';
 
 import '../widgets/service_tile.dart';
 import '../widgets/characteristic_tile.dart';
@@ -172,10 +173,12 @@ class _DeviceScreenState extends State<DeviceScreen> {
       if (_isConnecting || _isDisconnecting) buildSpinner(context),
       ElevatedButton(
           onPressed: _isConnecting ? onCancelPressed : (isConnected ? onDisconnectPressed : onConnectPressed),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primaryContainer),
-          child: Text(_isConnecting ? "STOP" : (isConnected ? "OFF" : "ON"),textAlign: TextAlign.center,
-            style: Theme.of(context).primaryTextTheme.labelLarge?.copyWith(color: Colors.white),
+          style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.primaryContainer),
+          child: 
+            Icon(
+              _isConnecting ? Icons.stop : (isConnected ? Icons.bluetooth_connected : Icons.bluetooth_disabled),
+              size: 20,
+              color:  _isConnecting ? Theme.of(context).colorScheme.primary : (isConnected ? Color.fromARGB(255, 67, 187, 83)  : Color.fromARGB(255, 199, 171, 45)),
           ))
     ]);
   }
@@ -184,9 +187,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
   List<dynamic> _buildServiceTiles(BuildContext context, BluetoothDevice d) {
     List myList =_services.map((s) => ServiceTile(
             service: s,
-            characteristicTiles: s.characteristics.map((c) => _buildCharacteristicTile(c)).toList()),
-        ).toList();
-
+            characteristicTiles: s.characteristics.map((c) => _buildCharacteristicTile(c)).toList())).toList();
     return myList;
   }
   CharacteristicTile _buildCharacteristicTile(BluetoothCharacteristic c) {
@@ -196,11 +197,13 @@ class _DeviceScreenState extends State<DeviceScreen> {
     );
   }
 
-   // Connect Button
-  Widget buildBluetoothConfigurator () {
+  // This will be the main widget
+  Widget buildDeviceManager (BuildContext context, BluetoothDevice d) {
+    print("joao");
+    print(context);
+    print(d);
     return const Text("This is the controller");
   }
-
 
   // Page built
   @override
@@ -208,23 +211,18 @@ class _DeviceScreenState extends State<DeviceScreen> {
     return ScaffoldMessenger(
       key: Snackbar.snackBarKeyC,
       child: Scaffold(
+        
         appBar: AppBar(
+          title: Text("${widget.device.platformName}",style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 20, fontWeight: FontWeight.w300)),
           actions: [buildConnectButton(context)],
-          title:  Text("Heat controller",  style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 20)),
           backgroundColor: Theme.of(context).colorScheme.secondaryContainer),
+        
         body: SingleChildScrollView(
-          child: Column( 
-            children: 
-            <Widget>[
-
-              ListTile(
-                leading: buildBleIconTile(context),
-                title: Text('${widget.device.platformName}')
-                ),
-                ..._buildServiceTiles(context, widget.device),
-
-                // Main controller layout
-                // buildBluetoothConfigurator(),
+          child: Column(
+            children: <Widget> [
+              // ..._buildServiceTiles(context, widget.device), 
+              
+              buildDeviceManager(context, widget.device), 
             ],
          ),
         ),

@@ -130,25 +130,19 @@ class _ScanScreenState extends State<ScanScreen> {
     return ScaffoldMessenger(key: Snackbar.snackBarKeyB,
       child: 
         Scaffold(
+
           appBar: AppBar(
-            centerTitle: true,
-            leading:Icon(
-              Icons.bluetooth_disabled,
-              size: 20,
-              color: Theme.of(context).colorScheme.primary),
-            title: Text(
-              "Bluetooth devices",
-              style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 20)),
-              backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-              actions: [buildLoadingBanner(), const SizedBox(width: 15)],
-              ),
+            leading:Icon(Icons.bluetooth,size: 25, color: Theme.of(context).colorScheme.primary),
+            title: Text("Bluetooth devices", style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w300, fontSize: 20)),backgroundColor: Theme.of(context).colorScheme.secondaryContainer,actions: [buildLoadingBanner(), const SizedBox(width: 15)],),
+          
           body:
             RefreshIndicator(
             color: Theme.of(context).colorScheme.secondaryContainer, // Custom color
               onRefresh: onRefresh,
               child: ListView(
                 children: 
-                <Widget>[
+                <Widget>
+                [
                   ..._buildScanResultTiles(),
                 ],
               ),
