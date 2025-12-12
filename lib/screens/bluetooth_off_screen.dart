@@ -16,8 +16,12 @@ class BluetoothOffScreen extends StatelessWidget {
   Widget buildTitle(BuildContext context) {
     String? state = adapterState?.toString().split(".").last;
     return Text(
-      'Bluetooth adapter is ${state ?? 'not available'}',
+      'Bluetooth adapter is ${state ?? 'not available'}.',
       style: TextStyle(fontSize: 15));
+  } 
+
+  Widget buildSubTitle(BuildContext context) {
+    return Text('(please enable bluetooth on your phone)',style: TextStyle(fontSize: 12));
   }  
 
   Widget buildBluetoothOffIcon(BuildContext context) {
@@ -64,13 +68,14 @@ class BluetoothOffScreen extends StatelessWidget {
 
               // Text
               buildTitle(context),
-              
+              buildSubTitle(context),
+
               // Spacer
               const SizedBox(height: 10),
               
               // Button 
               if (!kIsWeb && Platform.isAndroid) 
-              buildTurnOnButton(context),
+              buildTurnOnButton(context)
 
             ],
           ),

@@ -11,7 +11,6 @@ import '../utils/extra.dart';
 
 class DeviceScreen extends StatefulWidget {
   final BluetoothDevice device;
-
   const DeviceScreen({super.key, required this.device});
 
   @override
@@ -144,16 +143,16 @@ class _DeviceScreenState extends State<DeviceScreen> {
     }
   }
 
-  Future onRequestMtuPressed() async {
-    try {
-      await widget.device.requestMtu(223, predelay: 0);
-      Snackbar.show(ABC.c, "Request Mtu: Success", success: true);
-    } catch (e, backtrace) {
-      Snackbar.show(ABC.c, prettyException("Change Mtu Error:", e), success: false);
-      print(e);
-      print("backtrace: $backtrace");
-    }
-  }
+  // Future onRequestMtuPressed() async {
+  //   try {
+  //     await widget.device.requestMtu(223, predelay: 0);
+  //     Snackbar.show(ABC.c, "Request Mtu: Success", success: true);
+  //   } catch (e, backtrace) {
+  //     Snackbar.show(ABC.c, prettyException("Change Mtu Error:", e), success: false);
+  //     print(e);
+  //     print("backtrace: $backtrace");
+  //   }
+  // }
 
   List<dynamic> _buildServiceTiles(BuildContext context, BluetoothDevice d) {
     List myList =_services.map(
@@ -186,54 +185,54 @@ class _DeviceScreenState extends State<DeviceScreen> {
     );
   }
 
-  Widget buildRemoteId(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Text('${widget.device.remoteId}'),
-    );
-  }
+  // Widget buildRemoteId(BuildContext context) {
+  //   return Padding(
+  //     padding: const EdgeInsets.all(8.0),
+  //     child: Text('${widget.device.remoteId}'),
+  //   );
+  // }
 
   Widget buildRssiTile(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         isConnected ? const Icon(Icons.bluetooth_connected) : const Icon(Icons.bluetooth_disabled),
-      //y  Text(((isConnected && _rssi != null) ? '${_rssi!} dBm' : ''), style: Theme.of(context).textTheme.bodySmall)
+        //Text(((isConnected && _rssi != null) ? '${_rssi!} dBm' : ''), style: Theme.of(context).textTheme.bodySmall)
       ],
     );
   }
 
-  Widget buildGetServices(BuildContext context) {
-    return IndexedStack(
-      index: (_isDiscoveringServices) ? 1 : 0,
-      children: <Widget>[
-        // TextButton(
-        //   onPressed: onDiscoverServicesPressed,
-        //   child: const Text("Get Services"),
-        // ),
-        const IconButton(
-          icon: SizedBox(
-            width: 18.0,
-            height: 18.0,
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(Colors.grey),
-            ),
-          ),
-          onPressed: null,
-        )
-      ],
-    );
-  }
+  // Widget buildGetServices(BuildContext context) {
+  //   return IndexedStack(
+  //     index: (_isDiscoveringServices) ? 1 : 0,
+  //     children: <Widget>[
+  //       // TextButton(
+  //       //   onPressed: onDiscoverServicesPressed,
+  //       //   child: const Text("Get Services"),
+  //       // ),
+  //       const IconButton(
+  //         icon: SizedBox(
+  //           width: 18.0,
+  //           height: 18.0,
+  //           child: CircularProgressIndicator(
+  //             valueColor: AlwaysStoppedAnimation(Colors.grey),
+  //           ),
+  //         ),
+  //         onPressed: null,
+  //       )
+  //     ],
+  //   );
+  // }
 
-  Widget buildMtuTile(BuildContext context) {
-    return ListTile(
-        title: const Text('MTU Size'),
-        subtitle: Text('$_mtuSize bytes'),
-        trailing: IconButton(
-          icon: const Icon(Icons.edit),
-          onPressed: onRequestMtuPressed,
-        ));
-  }
+  // Widget buildMtuTile(BuildContext context) {
+  //   return ListTile(
+  //       title: const Text('MTU Size'),
+  //       subtitle: Text('$_mtuSize bytes'),
+  //       trailing: IconButton(
+  //         icon: const Icon(Icons.edit),
+  //         onPressed: onRequestMtuPressed,
+  //       ));
+  // }
 
   Widget buildConnectButton(BuildContext context) {
     return Row(children: [
@@ -272,10 +271,8 @@ class _DeviceScreenState extends State<DeviceScreen> {
 
               // buildMtuTile(context),
               // Service UUID information /NEED TO FILTER() TODO:
-              ..._buildServiceTiles(context, widget.device),
-              
-
-              
+               ..._buildServiceTiles(context, widget.device),
+                          
             ],
           ),
         ),

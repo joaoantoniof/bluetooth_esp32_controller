@@ -41,14 +41,14 @@ dependencies:
 
 flutter_native_splash:
   color: "#222222"
-  image: assets/images/bs_bw.png
+  image: assets/images/bs_logo_01.png
   android: true
   ios: true
   web: false
 
   android_12:
     color: "#222222"
-    image: assets/images/bs_bw.png
+    image: assets/images/bs_logo_01.png
 
 
 

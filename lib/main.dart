@@ -19,7 +19,6 @@ void main() {
 
 // This widget shows BluetoothOffScreen or
 // ScanScreen depending on the adapter state
-
 class FlutterBlueApp extends StatefulWidget {
   const FlutterBlueApp({super.key});
 
