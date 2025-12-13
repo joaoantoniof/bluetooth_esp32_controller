@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:heat_controller_app_bs/theme/light_mode.dart';
 
 import '../widgets/service_tile.dart';
 import '../widgets/characteristic_tile.dart';
@@ -185,15 +184,9 @@ class _DeviceScreenState extends State<DeviceScreen> {
 
   // Generator of tiles interface
   List<dynamic> _buildServiceTiles(BuildContext context, BluetoothDevice d) {
-    
-    List myList =_services.map((s) => ServiceTile(
-            service: s,
-            characteristicTiles: s.characteristics.map((c) => _buildCharacteristicTile(c)).toList())).toList();
-    
+    List myList = _services.map((s) => ServiceTile(service: s,characteristicTiles: s.characteristics.map((c) => _buildCharacteristicTile(c)).toList())).toList();
     return myList;
   }
-
-
 
   CharacteristicTile _buildCharacteristicTile(BluetoothCharacteristic c) {
     return CharacteristicTile(
@@ -204,15 +197,22 @@ class _DeviceScreenState extends State<DeviceScreen> {
 
   // This will be the main widget
   Widget buildDeviceManager (BuildContext context, BluetoothDevice d) {
-    print("MYLOGO_Servirce");
+
+    print("Servicos");
     print(_services);
 
+    print("=============== LISTA ==================");
+    for (var i = 0; i < _services.length; i++){
+      //var candidate = _services[i];
+      // Page builtBluetoothService
+      print("Novo servico --------------");
+      print(_services[i]);
+    }
+
     // Filtrar srevices pelo UUID
-    
     return const SizedBox();
   }
 
-  // Page built
   @override
   Widget build(BuildContext context) {
     return ScaffoldMessenger(
@@ -227,9 +227,10 @@ class _DeviceScreenState extends State<DeviceScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: <Widget> [
+
               ..._buildServiceTiles(context, widget.device), 
-              
-              buildDeviceManager(context, widget.device), 
+              buildDeviceManager(context, widget.device)
+
             ],
          ),
         ),

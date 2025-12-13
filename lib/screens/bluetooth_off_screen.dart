@@ -28,7 +28,7 @@ class BluetoothOffScreen extends StatelessWidget {
     return const Icon(
       Icons.bluetooth_disabled,
       size: 80,
-      color: Color.fromARGB(255, 220, 170, 20));
+      color: Colors.red);
   }
 
   Widget buildTurnOnButton(BuildContext context) {

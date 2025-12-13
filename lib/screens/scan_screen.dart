@@ -133,7 +133,7 @@ class _ScanScreenState extends State<ScanScreen> {
 
           appBar: AppBar(
             leading:Icon(Icons.bluetooth,size: 25, color: Theme.of(context).colorScheme.primary),
-            title: Text("Bluetooth devices", style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.normal, fontSize: 20)),backgroundColor: Theme.of(context).colorScheme.secondaryContainer,actions: [buildLoadingBanner(), const SizedBox(width: 15)],),
+            title: Text("My devices", style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.normal, fontSize: 20)),backgroundColor: Theme.of(context).colorScheme.secondaryContainer,actions: [buildLoadingBanner(), const SizedBox(width: 15)],),
           
           body:
             RefreshIndicator(
